@@ -1,0 +1,46 @@
+# 网站的全局配置
+site_name: UC Berkeley CS 188 Notes
+site_author: Hongyi Chen
+site_description: '2025 Spring'
+
+# 版权信息
+copyright: 'Copyright &copy; 2025 你的名字'
+
+# 主题配置 (使用 Material for MkDocs)
+theme:
+  name: material
+  language: zh  # 全局语言设置为中文
+  palette:
+    # 日间/夜间模式切换
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 夜间模式
+    - scheme: slate
+      primary: black
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 日间模式
+  features:
+    - navigation.instant  # 快速加载
+    - navigation.tracking # 地址栏自动跟随滚动位置
+    - navigation.tabs     # 顶部显示一级目录
+    - navigation.top      # 返回顶部按钮
+    - search.suggest      # 搜索建议
+    - search.highlight    # 搜索词高亮
+    - content.code.copy   # 代码块一键复制按钮
+    - content.code.annotate # 代码块注释功能
+
+# Markdown 扩展配置
+markdown_extensions:
+  - toc:
+      permalink: true  # 为标题添加永久链接
+  - admonition  # 提示框，如 !!! note "这是一个提示"
+  - pymdownx.details # 可折叠内容块
+  - pymdownx.superfences # 高级代码块
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
