@@ -1,7 +1,7 @@
 ---
 author: Hongyi Chen
 date: today
-title: Lecture 7&8 MDP
+title: Lecture 07&08 MDP
 ---
 
 ## CS 180 - Introduction to AI

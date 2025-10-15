@@ -1,7 +1,7 @@
 ---
 author: Hongyi Chen
 date: today
-title: Lecture 1 Uninformed Search
+title: Lecture 01 Uninformed Search
 ---
 
 ## CS 180 - Introduction to AI

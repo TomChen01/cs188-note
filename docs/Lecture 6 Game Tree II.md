@@ -1,7 +1,7 @@
 ---
 author: Hongyi Chen
 date: today
-title: Lecture 6 Game Tree II
+title: Lecture 06 Game Tree II
 ---
 
 ## CS 180 - Introduction to AI

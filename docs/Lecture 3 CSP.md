@@ -1,7 +1,7 @@
 ---
 author: Hongyi Chen
 date: today
-title: Lecture 3 CSP
+title: Lecture 03 CSP
 ---
 
 ## CS 180 - Introduction to AI

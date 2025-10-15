@@ -1,7 +1,7 @@
 ---
 author: Hongyi Chen
 date: today
-title: Lecture 2 Informed Search
+title: Lecture 02 Informed Search
 ---
 
 ## CS 180 - Introduction to AI

@@ -1,7 +1,7 @@
 ---
 author: Hongyi Chen
 date: today
-title: Lecture 9&10 RL
+title: Lecture 09&10 RL
 ---
 
 ## CS 180 - Introduction to AI

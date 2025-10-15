@@ -1,7 +1,7 @@
 ---
 author: Hongyi Chen
 date: today
-title: Lecture 4 CPS II
+title: Lecture 04 CPS II
 ---
 
 ## CS 180 - Introduction to AI
