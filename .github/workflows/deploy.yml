@@ -25,4 +25,3 @@ jobs:
       - name: Deploy
         run: mkdocs gh-deploy --force
 
-name: Deploy notes to GitHub Pages
