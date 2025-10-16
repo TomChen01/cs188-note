@@ -6,6 +6,18 @@ site_description: '2025 Spring'
 # 版权信息
 copyright: 'Copyright &copy; 2025 Hongyi Chen'
 
+# 导航栏配置 (*** 这是新增的部分 ***)
+nav:
+  - Home: index.md # 网站首页，假设文件名为 index.md
+  - Lecture Notes:
+    - 'Lecture 01: Uninformed Search': lectures/lec01_uninformed_search.md
+    - 'Lecture 02: Informed Search': lectures/lec02_informed_search.md
+    - 'Lecture 03: CSP': lectures/lec03_csp.md
+    - 'Lecture 04: CSP II': lectures/lec04_csp_part2.md
+    - 'Lecture 05: Game Tree': lectures/lec05_game_tree.md
+    - 'Lecture 06: Game T...': lectures/lec06_game_t.md
+    # --- 在这里继续添加你未来的笔记 ---
+
 # 主题配置 (使用 Material for MkDocs)
 theme:
   name: material
