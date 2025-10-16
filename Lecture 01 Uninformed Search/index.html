@@ -1,0 +1,1537 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="2025 Spring">
+      
+      
+        <meta name="author" content="Hongyi Chen">
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../Lecture%2002%20Informed%20Search/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
+    
+    
+      
+        <title>Lecture 01 Uninformed Search - UC Berkeley CS 188 Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cs-180-introduction-to-ai" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="UC Berkeley CS 188 Notes" class="md-header__button md-logo" aria-label="UC Berkeley CS 188 Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            UC Berkeley CS 188 Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lecture 01 Uninformed Search
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到夜间模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到夜间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="切换到日间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到日间模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://tomchen01.github.io/cs188-note/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub Repo
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Search
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Lecture%2003%20CSP/" class="md-tabs__link">
+          
+  
+  
+  CSP
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Lecture%2005%20Game%20Tree/" class="md-tabs__link">
+          
+  
+  
+  Adversarial Search
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Lecture%2007%2608%20MDP/" class="md-tabs__link">
+          
+  
+  
+  MDP & RL
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Lecture%2011-14%20Probability%20and%20Bayes%20Nets/" class="md-tabs__link">
+          
+  
+  
+  Bayes Nets
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="UC Berkeley CS 188 Notes" class="md-nav__button md-logo" aria-label="UC Berkeley CS 188 Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    UC Berkeley CS 188 Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://tomchen01.github.io/cs188-note/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub Repo
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    首页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Search
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Search
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Lec 01: Uninformed Search
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lec 01: Uninformed Search
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cs-180-introduction-to-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      CS 180 - Introduction to AI
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CS 180 - Introduction to AI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lecture-1-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lecture 1: Search
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lecture 1: Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-different-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Different Agents
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-search-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Search Problem 搜索问题
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Search Problem 搜索问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-state-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1. State Space
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-state-space-graphs" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2. State Space Graphs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-search-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3. Search Tree
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-uninformed-search-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Uninformed Search Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Uninformed Search Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-depth-first-search-dfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1. Depth-First Search (DFS)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-breadth-first-search-bfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2. Breadth-First Search (BFS)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-uniform-cost-search-ucs" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3. Uniform Cost Search (UCS)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Lecture%2002%20Informed%20Search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lec 02: Informed Search
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CSP
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            CSP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Lecture%2003%20CSP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lec 03: CSP I
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Lecture%2004%20CSP%20II/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lec 04: CSP II
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Adversarial Search
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Adversarial Search
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Lecture%2005%20Game%20Tree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lec 05: Game Tree I
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Lecture%2006%20Game%20Tree%20II/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lec 06: Game Tree II
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    MDP & RL
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            MDP & RL
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Lecture%2007%2608%20MDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lec 07 & 08: MDP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Lecture%2009%2610%20RL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lec 09 & 10: RL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Bayes Nets
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Bayes Nets
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Lecture%2011-14%20Probability%20and%20Bayes%20Nets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lec 11-14: Bayes Nets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cs-180-introduction-to-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      CS 180 - Introduction to AI
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CS 180 - Introduction to AI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lecture-1-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lecture 1: Search
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lecture 1: Search">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-different-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Different Agents
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-search-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Search Problem 搜索问题
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Search Problem 搜索问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-state-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1. State Space
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-state-space-graphs" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2. State Space Graphs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-search-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3. Search Tree
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-uninformed-search-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Uninformed Search Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Uninformed Search Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-depth-first-search-dfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1. Depth-First Search (DFS)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-breadth-first-search-bfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2. Breadth-First Search (BFS)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-uniform-cost-search-ucs" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3. Uniform Cost Search (UCS)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Lec 01: Uninformed Search</h1>
+
+<h2 id="cs-180-introduction-to-ai">CS 180 - Introduction to AI<a class="headerlink" href="#cs-180-introduction-to-ai" title="Permanent link">&para;</a></h2>
+<h3 id="lecture-1-search">Lecture 1: Search<a class="headerlink" href="#lecture-1-search" title="Permanent link">&para;</a></h3>
+<h4 id="1-different-agents">1. Different Agents<a class="headerlink" href="#1-different-agents" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Reflex agents:</strong>  based on current percept (and maybe memory).</li>
+<li><strong>Planning agents:</strong> based on (hypothesized) consequences of actions.</li>
+</ul>
+<h4 id="2-search-problem">2. Search Problem 搜索问题<a class="headerlink" href="#2-search-problem" title="Permanent link">&para;</a></h4>
+<p>一个搜索问题必须包含以下元素：
+* A <strong>state space</strong> - The set of all possible states that are possible in your given world
+* A set of <strong>actions</strong> available in each state
+* A <strong>transition</strong> model - Outputs the next state when a specific action is taken at current state
+* An action <strong>cost</strong> - Incurred when moving from one state to another after applying an action
+* A <strong>start state</strong> - The state in which an agent exists initially
+* A <strong>goal test</strong> - A function that takes a state as input, and determines whether it is a goal state</p>
+<p>A solution is a sequence of actions (a plan) which transforms the start state to a goal state.</p>
+<h5 id="21-state-space">2.1. State Space<a class="headerlink" href="#21-state-space" title="Permanent link">&para;</a></h5>
+<p>解决问题无需所有细节</p>
+<ul>
+<li><strong>World State:</strong> includes every last detail of the environment.</li>
+<li><strong>Search State:</strong> keeps only the details needed for planning.</li>
+</ul>
+<h5 id="22-state-space-graphs">2.2. State Space Graphs<a class="headerlink" href="#22-state-space-graphs" title="Permanent link">&para;</a></h5>
+<p>A mathematical representation of a search problem. </p>
+<p>(We can rarely build this full graph in memory - <strong>Too Big!!!</strong>)</p>
+<ul>
+<li>Nodes - (abstracted) world configurations</li>
+<li>Arcs - successors (actions)</li>
+<li>The goal test is a set of goal nodes (maybe only one)</li>
+</ul>
+<p>搜索问题在于寻找从初始状态到目标状态的路径。</p>
+<p>所有可能位置和道路构成的完整地图即为状态空间图。</p>
+<h5 id="23-search-tree">2.3. Search Tree<a class="headerlink" href="#23-search-tree" title="Permanent link">&para;</a></h5>
+<p><em>General Procedure</em>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>function Tree-Search(problem,strategy) -&gt; returns a solution, or failure
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    initialize the search tree using the initial state of problem
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    loop do
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        if no candidates for expansion:
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>            return failure
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        choose a leaf node for expansion according to startegy
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        if node contains a goal state:
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>            return the corresponding solution
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        else:
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>            expand the node and add the resulting nodes to the search tree
+</code></pre></div></p>
+<p><img alt="Graph and Tree" src="../media/graph_and_tree.png" /></p>
+<p><em>如果这些结构体过大而无法在内存中表示怎么办？</em><br />
+仅储存当前状态！</p>
+<blockquote>
+<p><strong>Similarity</strong><br />
+永远无法在内存中构建完整的搜索树，因为它会变得过于庞大</p>
+<p><strong>Each NODE in the search tree is an entire PATH in the state space graph.</strong><br />
+搜索树中的节点不仅表示一个位置，更代表到达该位置所采取的完整动作序列。</p>
+</blockquote>
+<h4 id="3-uninformed-search-methods">3. Uninformed Search Methods<a class="headerlink" href="#3-uninformed-search-methods" title="Permanent link">&para;</a></h4>
+<p>当我们在搜索树中无法确定目标状态的位置时，就不得不从<strong>无信息搜索</strong>范畴内的技术中选择树搜索策略。<br />
+这包含了三个常见的算法： DFS, BFS, UCS。</p>
+<h5 id="31-depth-first-search-dfs">3.1. Depth-First Search (DFS)<a class="headerlink" href="#31-depth-first-search-dfs" title="Permanent link">&para;</a></h5>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">特性</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>思路</strong></td>
+<td style="text-align: left;">从起始节点选择最深的边界节点进行扩展。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>边界</strong></td>
+<td style="text-align: left;">移除最深节点并用其子节点替换。这同时意味着子节点现在成为新的最深节点——它们的深度比之前最深节点的深度大1。<strong>使用 Stack 很容易能完成！</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>完整性</strong></td>
+<td style="text-align: left;">不完全。如果存在循环，相应的搜索树深度会无限。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>最优性</strong></td>
+<td style="text-align: left;">不具备。只是在搜索树中找到“最左边”的解决方案，而不考虑路径成本。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>时间复杂度</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(b^m)\)</span>, <span class="arithmatex">\(m\)</span> is the maximum depth, <span class="arithmatex">\(b\)</span> is the branching factor （一个节点最多有多少个子节点）.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>空间复杂度</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(bm)\)</span></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>例：在一个图中用 DFS 找到从节点 A 到 G 的路径<br />
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>              (A)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>               |
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        +------+------+
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        |             |
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>       (B)           (C)
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        |             |
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>     +--+--+          |
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>     |     |          |
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    (D)   (E)        (F)
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>           |          |
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>           |          |
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>           +---+------+
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>               |
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>              (G)
+</code></pre></div></p>
+</blockquote>
+<p>逻辑：使用两个数据结构实现
+* 边界 (Frontier)：用一个栈 (Stack) 来实现。栈顶永远是我们下一步要探索的节点。
+* 已访问 (Visited)：用一个集合 (Set) 来记录已经探索过的节点，防止走回头路或陷入死循环。</p>
+<blockquote>
+<p><strong>Step 0:</strong> 将起点 A 放入栈中。 
+* Frontier (Top -&gt; Bottom): [A]<br />
+<em> Visited: {}
+</em><em>Step1:</em><em> 探索 A<br />
+从栈顶取出 A。A 不是目标。将 A 标记为“已访问”。找到 A 的所有邻居 (B, C)，将它们压入栈中。
+*  Frontier: [B, C]
+*  Visited: {A}
+</em><em>Step 2:</em><em> 探索 B<br />
+从栈顶取出 B。B 不是目标。将 B 标记为“已访问”。找到 B 的邻居 (D, E)，将它们压入栈中。
+* Frontier: [D, E, C]
+* Visited: {A, B}
+</em><em>Step 3:</em><em> 探索 D (撞南墙)
+从栈顶取出 D。D 不是目标。将 D 标记为“已访问”。D 没有任何邻居，是个死胡同。
+* Frontier: [E, C]
+* Visited: {A, B, D}
+</em><em>Step 4:</em><em> 探索E
+* Frontier：[G, C]
+* Visited: {A, B, D, E}
+</em><em>Step 5:</em>* 探索G (找到目标！)
+从栈顶取出 G。G 是我们的目标！搜索成功！</p>
+</blockquote>
+<h5 id="32-breadth-first-search-bfs">3.2. Breadth-First Search (BFS)<a class="headerlink" href="#32-breadth-first-search-bfs" title="Permanent link">&para;</a></h5>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">特性</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>思路</strong></td>
+<td style="text-align: left;">选择距离起始节点最浅的边界节点进行扩展。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>边界</strong></td>
+<td style="text-align: left;">先访问较浅的节点，然后再访问较深的节点，按照节点的插入顺序进行访问。<strong>使用Queue很容易实现！</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>完整性</strong></td>
+<td style="text-align: left;">完全。层数有限，必然到达最深处。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>最优性</strong></td>
+<td style="text-align: left;">不具备。在确定边界上要替换的节点时根本不考虑成本。BFS 保证最优的特殊情况是所有边成本相等，因为这会将 BFS 简化为均匀成本搜索的特例。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>时间复杂度</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(b^s)\)</span>, <span class="arithmatex">\(s\)</span> 为最优解的深度, <span class="arithmatex">\(b\)</span> is the branching factor （一个节点最多有多少个子节点）.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>空间复杂度</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(b^s)\)</span></td>
+</tr>
+</tbody>
+</table>
+<h5 id="33-uniform-cost-search-ucs">3.3. Uniform Cost Search (UCS)<a class="headerlink" href="#33-uniform-cost-search-ucs" title="Permanent link">&para;</a></h5>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">特性</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>思路</strong></td>
+<td style="text-align: left;">始终从起始节点选择成本最低的边界节点进行扩展。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>边界</strong></td>
+<td style="text-align: left;">选择基于堆的<strong>Priority Queue</strong>。入队节点<span class="arithmatex">\(v\)</span>的优先级为起点节点到<span class="arithmatex">\(v\)</span>的路径成本，或<span class="arithmatex">\(v\)</span>的后向成本。在移除当前最小成本路径并替换为其子节点时，会自动重新排序以维持基于路径成本的期望排序。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>完整性</strong></td>
+<td style="text-align: left;">完全。如果目标状态存在，它必然存在一条有限长度的最短路径.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>最优性</strong></td>
+<td style="text-align: left;">具备。(统一成本搜索采用的策略与 Dijkstra 算法相同，主要区别在于 UCS 会在找到解状态时终止，而不是找到到达所有状态的最短路径。)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>时间复杂度</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(b^{C^*/\epsilon})\)</span>, <span class="arithmatex">\(C^*\)</span> 为从起点到终点的最优路径的实际成本, <span class="arithmatex">\(\epsilon\)</span> 为任意一步（边）的最小成本。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>空间复杂度</strong></td>
+<td style="text-align: left;"><span class="arithmatex">\(O(b^{C^*/\epsilon})\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>           (A) &lt;-- 起点
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>          /   \
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>         /     \
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>      (1)       (5)
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>       /         \
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>      v           v
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>     (B)         (C)
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>      \           /
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>       \         /
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>      (3)       (1)
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>         \     /
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>          v   v
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>           (D)
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>            |
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>           (2)
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>            |
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>            v
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>           (G) &lt;-- 目标
+</code></pre></div>
+逻辑：
+* 边界 (Frontier)：用一个优先队列 (Priority Queue) 实现。队列中的每个元素是 (成本, 节点)，并始终按成本从小到大排序。
+* 已探索 (Explored)：用一个集合 (Set) 来记录已经探索过的节点，确保我们不会重复处理。</p>
+<blockquote>
+<p><strong>Step 0:</strong> 初始化<br />
+将起点 A 放入优先队列，其成本为0。
+* Frontier (按成本排序): [(0, A)]<br />
+* Explored: {}</p>
+<p><strong>Step 1:</strong> 探索 A
+从优先队列中取出成本最低的节点 (0, A)。将 A 放入“已探索”。找到 A 的邻居 B 和 C。</p>
+<p>到 B 的成本是 0 + 1 = 1。将 (1, B) 放入队列。<br />
+到 C 的成本是 0 + 5 = 5。将 (5, C) 放入队列。
+* Frontier: [(1, B), (5, C)]
+* Explored: {A}</p>
+<p><strong>Step 2:</strong> 探索 B (而不是 C！)
+此时队列中成本最低的是 (1, B)。取出它，并将 B 放入“已探索”。找到 B 的邻居 D。</p>
+<p>到 D 的成本是 (A到B的成本) + (B到D的成本) = 1 + 3 = 4。将 (4, D) 放入队列。</p>
+<ul>
+<li>Frontier: [(4, D), (5, C)]  (注意 (4,D) 排在了 (5,C) 的前面)</li>
+<li>Explored: {A, B}</li>
+</ul>
+<p>关键点： 尽管 C 是 A 的直接邻居，但因为当前到 D 的已知路径成本(4)比到 C 的成本(5)更低，所以UCS优先选择了这条看起来更有希望的路径。</p>
+<p><strong>Step 3:</strong> 探索 D
+从优先队列中取出成本最低的节点 (4, D)。将 D 放入“已探索”。找到 D 的邻居 G。</p>
+<p>到 G 的成本是 (A到D的成本) + (D到G的成本) = 4 + 2 = 6。将 (6, G) 放入队列。</p>
+<ul>
+<li>Frontier: [(5, C), (6, G)]</li>
+<li>Explored: {A, B, D}</li>
+</ul>
+<p><strong>Step 4:</strong> 探索 C
+从优先队列中取出成本最低的节点 (5, C)。将 C 放入“已探索”。找到 C 的邻居 D。</p>
+<p>到 D 的新路径成本是 (A到C的成本) + (C到D的成本) = 5 + 1 = 6。</p>
+<p>检查发现 D 已经在“已探索”集合里了。而且新路径成本(6)并不比之前到 D 的成本(4)更低，因此我们忽略这条路径。</p>
+<ul>
+<li>Frontier: [(6, G)]</li>
+<li>Explored: {A, B, D, C}</li>
+</ul>
+<p><strong>Step 5:</strong> 探索 G (找到目标！)
+从优先队列中取出成本最低的节点 (6, G)。
+G 是我们的目标！搜索成功！ 找到的最低成本是 6，路径为 A -&gt; B -&gt; D -&gt; G。</p>
+</blockquote>
+<hr />
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Hongyi Chen
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
