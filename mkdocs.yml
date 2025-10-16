@@ -23,6 +23,22 @@ nav:
 # ----------------------------------------------------------------------------
 # 网站导航结构 (根据你的文件列表定制)
 # ----------------------------------------------------------------------------
+nav:
+  - '首页': 'index.md'
+  - 'Search':
+    - 'Lec 01: Uninformed Search': 'Lecture 01 Uninformed Search.md'
+    - 'Lec 02: Informed Search': 'Lecture 02 Informed Search.md'
+  - 'CSP':
+    - 'Lec 03: CSP I': 'Lecture 03 CSP.md'
+    - 'Lec 04: CSP II': 'Lecture 04 CSP II.md'
+  - 'Adversarial Search':
+    - 'Lec 05: Game Tree I': 'Lecture 05 Game Tree.md'
+    - 'Lec 06: Game Tree II': 'Lecture 06 Game Tree II.md'
+  - 'MDP & RL':
+    - 'Lec 07 & 08: MDP': 'Lecture 07&08 MDP.md'
+    - 'Lec 09 & 10: RL': 'Lecture 09&10 RL.md'
+  - 'Bayes Nets':
+    - 'Lec 11-14: Bayes Nets': 'Lecture 11-14 Probability and Bayes Nets.md'
 
 # 主题配置 (使用 Material for MkDocs)
 theme:
