@@ -3,63 +3,70 @@ site_name: UC Berkeley CS 188 Notes
 site_author: Hongyi Chen
 site_description: '2025 Spring'
 
+# 如果你的项目托管在 GitHub，可以添加这个链接
+repo_url: https://tomchen01.github.io/cs188-note/
+repo_name: 'GitHub Repo'
+
 # 版权信息
 copyright: 'Copyright &copy; 2025 Hongyi Chen'
 
-# 导航栏配置 (*** 这是新增的部分 ***)
+# ----------------------------------------------------------------------------
+# 网站导航结构 (核心修改部分)
+# ----------------------------------------------------------------------------
+# 说明：
+# 1. 你需要根据你 'docs' 文件夹下的实际文件路径和名称来修改下面的内容。
+# 2. `- '显示在菜单上的名字': '相对于docs文件夹的路径/文件名.md'`
+# 3. 通过缩进可以创建二级、三级菜单。
+# 4. 我根据 CS 188 的课程大纲为你设计了一个示例结构，请随意调整。
+# ----------------------------------------------------------------------------
 nav:
-  - Home: index.md # 网站首页，假设文件名为 index.md
-  - Lecture Notes:
-    - 'Lecture 01: Uninformed Search': lectures/lec01_uninformed_search.md
-    - 'Lecture 02: Informed Search': lectures/lec02_informed_search.md
-    - 'Lecture 03: CSP': lectures/lec03_csp.md
-    - 'Lecture 04: CSP II': lectures/lec04_csp_part2.md
-    - 'Lecture 05: Game Tree': lectures/lec05_game_tree.md
-    - 'Lecture 06: Game T...': lectures/lec06_game_t.md
-    # --- 在这里继续添加你未来的笔记 ---
+# ----------------------------------------------------------------------------
+# 网站导航结构 (根据你的文件列表定制)
+# ----------------------------------------------------------------------------
 
 # 主题配置 (使用 Material for MkDocs)
 theme:
   name: material
-  language: zh  # 全局语言设置为中文
+  language: zh
   palette:
-    # 日间/夜间模式切换
     - scheme: default
       primary: indigo
       accent: indigo
       toggle:
         icon: material/brightness-7
-        name: 夜间模式
+        name: 切换到夜间模式
     - scheme: slate
       primary: black
       accent: indigo
       toggle:
         icon: material/brightness-4
-        name: 日间模式
+        name: 切换到日间模式
   features:
-    - navigation.instant  # 快速加载
-    - navigation.tracking # 地址栏自动跟随滚动位置
-    - navigation.tabs     # 顶部显示一级目录
-    - navigation.top      # 返回顶部按钮
-    - search.suggest      # 搜索建议
-    - search.highlight    # 搜索词高亮
-    - content.code.copy   # 代码块一键复制按钮
+    - navigation.instant    # 快速加载
+    - navigation.tracking   # 地址栏自动跟随滚动位置
+    - navigation.tabs       # 顶部显示一级目录
+    - navigation.sections   # 左侧导航栏自动展开当前分区 (新增建议)
+    - navigation.top        # 返回顶部按钮
+    - search.suggest        # 搜索建议
+    - search.highlight      # 搜索词高亮
+    - content.code.copy     # 代码块一键复制按钮
     - content.code.annotate # 代码块注释功能
 
+# JavaScript 扩展 (用于支持 MathJax)
 extra_javascript:
   - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
-# Markdown 扩展配置
+# Markdown 扩展配置 (你的配置已很完善，无需改动)
 markdown_extensions:
   - toc:
-      permalink: true  # 为标题添加永久链接
-  - admonition  # 提示框，如 !!! note "这是一个提示"
-  - pymdownx.details # 可折叠内容块
-  - pymdownx.superfences # 高级代码块
-  - pymdownx.highlight:
+      permalink: true       # 为标题添加永久链接
+  - admonition              # 提示框
+  - pymdownx.details        # 可折叠内容块
+  - pymdownx.superfences    # 高级代码块
+  - pymdownx.highlight:     # 代码高亮
       anchor_linenums: true
-  - pymdownx.inlinehilite
-  - pymdownx.arithmatex:
+  - pymdownx.inlinehilite   # 行内代码高亮
+  - pymdownx.arithmatex:    # LaTeX 数学公式支持
       generic: true
